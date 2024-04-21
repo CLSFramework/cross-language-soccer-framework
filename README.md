@@ -33,7 +33,7 @@ The Helios Base Code is a framework for the RoboCup Soccer Simulation 2D. It is 
 
 gRPC is a high performance, open source, general-purpose RPC framework that puts mobile and HTTP/2 first. gRPC is based on the HTTP/2 standard, which is the next generation of HTTP. HTTP/2 is a binary protocol that is more efficient than HTTP/1.1, which is the current version of HTTP. HTTP/2 is also more secure than HTTP/1.1, because it uses TLS encryption by default.
 
-### [Soccer Simulation Proxy](https://github.com/Cyrus2D/SoccerSimulationProxy)
+### [Soccer Simulation Proxy](https://github.com/Cross-Language-Soccer-Framework/soccer-simulation-proxy)
 
 We have modified the Helios base code to enhance its interaction capabilities with the gRPC server. Specifically, the base code now transmits detailed information about each game cycle to the server, which in response, sends back a series of potential actions. This bidirectional communication enables the PlayMaker Server to effectively process and make strategic decisions based on the incoming data.
 
@@ -47,9 +47,9 @@ The Playmaker Server acts as the decision-making hub within our framework, recei
 
 To demonstrate the versatility and language-agnostic design of our framework, we have developed initial implementations of the Playmaker Server in three different programming languages: C#, Python, and JavaScript. These examples serve to showcase the server’s capability to operate effectively across diverse programming environments. Looking ahead, we aim to extend this functionality by developing additional server implementations in other languages, further broadening the framework's accessibility and appeal to a global research community.
 
-- [PlaymakerServer-CSharp](https://github.com/Cyrus2D/PlaymakerServer-CSharp)
-- [PlaymakerServer-Python](https://github.com/Cyrus2D/PlaymakerServer-Python)
-- [PlaymakerServer-NodeJs](https://github.com/Cyrus2D/PlaymakerServer-NodeJs)
+- [PlaymakerServer-CSharp](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-csharp)
+- [PlaymakerServer-Python](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-python)
+- [PlaymakerServer-NodeJs](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-nodejs)
 
 ![Screenshot 2024-04-07 012206](https://github.com/Cyrus2D/CrossLanguageSoccerFramework/assets/25696836/3f67fcfe-0fe6-4957-8df5-d728886f6f01)
 
@@ -298,7 +298,7 @@ You can download the AppImage of the Soccer Simulation Proxy from the #### and r
 
 ## Playmaker Server (PYTHON)
 
-You can run the Python Playmaker Server in many different ways. In this page we will show you how to run the Playmaker Server by using Python. You can find more ways to run the Playmaker Server in the [repository](https://github.com/Cyrus2D/PlaymakerServer-Python).
+You can run the Python Playmaker Server in many different ways. In this page we will show you how to run the Playmaker Server by using Python. You can find more ways to run the Playmaker Server in the [repository](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-python).
 
 ### Run the Playmaker Server by using Python
 
@@ -326,7 +326,7 @@ This bash file will run the Soccer Simulation Proxy (AppImage file in SoccerSimu
 ## Related Repositories
 
 - [Soccer Simulation Server](https://github.com/rcsoccersim/rcssserver)
-- [SoccerSimulationProxy](https://github.com/Cyrus2D/SoccerSimulationProxy)
-- [PlaymakerServer-CSharp](https://github.com/Cyrus2D/PlaymakerServer-CSharp)
-- [PlaymakerServer-Python](https://github.com/Cyrus2D/PlaymakerServer-Python)
-- [PlaymakerServer-NodeJs](https://github.com/Cyrus2D/PlaymakerServer-NodeJs)
+- [SoccerSimulationProxy](https://github.com/Cross-Language-Soccer-Framework/soccer-simulation-proxy)
+- [PlaymakerServer-CSharp](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-csharp)
+- [PlaymakerServer-Python](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-python)
+- [PlaymakerServer-NodeJs](https://github.com/Cross-Language-Soccer-Framework/playmaker-server-nodejs)
