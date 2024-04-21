@@ -289,6 +289,30 @@ You can download the AppImage of the Soccer Simulation Proxy from the #### and r
 
 ## Playmaker Server (PYTHON)
 
+You can run the Python Playmaker Server in many different ways. In this page we will show you how to run the Playmaker Server by using Python. You can find more ways to run the Playmaker Server in the [repository](https://github.com/Cyrus2D/PlaymakerServer-Python).
+
+### Run the Playmaker Server by using Python
+
+```bash
+sudo apt update
+sudo apt install git python3 python3-pip
+git clone git@github.com:Cyrus2D/PlaymakerServer-Python.git
+cd PlaymakerServer-Python
+pip3 install -r requirements.txt
+python3 grpc_server.py
+```
+
+After running the Playmaker Server, you can run the Soccer Simulation Proxy to connect to the Playmaker Server.
+
+### Run the Playmaker Server and the Soccer Simulation Proxy together
+
+You can run the Playmaker Server and the Soccer Simulation Proxy together by using the following command: (To run the Playmaker Server, you need to install the Python Playmaker Server dependencies)
+
+```bash
+./start-team.sh
+```
+
+This bash file will run the Soccer Simulation Proxy (AppImage file in SoccerSimulationProxyBin directory) and the Playmaker Server together. You can use this approach to participate in RoboCup competitions.
 
 ## Related Repositories
 
