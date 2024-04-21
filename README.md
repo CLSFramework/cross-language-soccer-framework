@@ -3,6 +3,8 @@
 Cross Language Soccer Framework is a new approach to enhance the flexibility and interoperability of RoboCup Soccer Simulation 2D (SS2D). The Soccer Simulation Proxy is an extended version of the Helios base that can send decision-making information to the PlayMaker Server. It can receive high-level actions from the PlayMaker Server and send them to RoboCup Soccer Simulation Server and/or SoccerWindow2.
 On the other hand, the PlayMaker Server receives information from the client and selects the appropriate actions to be sent back to the client. We have implemented some sample servers in C\#, Python, and JavaScript, but it can also be implemented in other languages to make use of their features.
 
+![mainflow](https://github.com/Cyrus2D/CrossLanguageSoccerFramework/assets/25696836/3ad98656-61a2-4830-8c65-71494b1dee0e)
+
 ## Definitions
 
 ### [RoboCup](https://www.robocup.org/)
@@ -12,6 +14,8 @@ RoboCup is an international robotics competition that focuses on promoting resea
 ### [RoboCup Soccer Simulation 2D](https://rcsoccersim.github.io/)
 
 RoboCup Soccer Simulation 2D is a league in the RoboCup competition that focuses on developing autonomous soccer-playing agents. The goal of the league is to develop intelligent agents that can play soccer in a simulated environment. The agents must be able to perceive the game state, make decisions based on that information, and execute actions to play the game effectively.
+
+![Screenshot 2024-01-06 135930](https://github.com/Cyrus2D/CrossLanguageSoccerFramework/assets/25696836/0202c371-57ee-42e3-89d9-69d7e429f220)
 
 ### [RoboCup Soccer Simulation Server](https://github.com/rcsoccersim/rcssserver)
 
@@ -46,6 +50,11 @@ To demonstrate the versatility and language-agnostic design of our framework, we
 - [PlaymakerServer-CSharp](https://github.com/Cyrus2D/PlaymakerServer-CSharp)
 - [PlaymakerServer-Python](https://github.com/Cyrus2D/PlaymakerServer-Python)
 - [PlaymakerServer-NodeJs](https://github.com/Cyrus2D/PlaymakerServer-NodeJs)
+
+![Screenshot 2024-04-07 012206](https://github.com/Cyrus2D/CrossLanguageSoccerFramework/assets/25696836/3f67fcfe-0fe6-4957-8df5-d728886f6f01)
+
+![detailflow](https://github.com/Cyrus2D/CrossLanguageSoccerFramework/assets/25696836/745f3760-96f2-434f-a54b-20eca2dd7433)
+
 
 ### Why not develop a base code for each language?
 
