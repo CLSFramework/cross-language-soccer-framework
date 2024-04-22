@@ -470,72 +470,59 @@ This action gets no parameter. This action is used to set the agent's view width
 ### View_Wide
 This action gets no parameter. This action is used to set the agent's view width to the ```WIDE``` width.
 
+### HeliosGoalie
+This action gets no parameter. This action is used to let the agent to act as a goalie in the helios-base.
+
+### HeliosGoalieMove
+This action gets no parameter. This action is used to let the agent to move as a goalie in the helios-base.
+
+### HeliosGoalieKick
+This action gets no parameter. This action is used to let the agent to kick the ball as a goalie in the helios-base.
+
+### HeliosShoot
+This action gets no parameter. This action is used to let the agent to shoot the ball in the helios-base.
+
+### HeliosChainAction
+This action gets 9 parameter:
+- ```direct_pass``` (bool): Indicates whether the agent generates directs pass in the chain action.
+- ```lead_pass``` (bool): Indicates whether the agent generates lead pass in the chain action.
+- ```through_pass``` (bool): Indicates whether the agent generates through pass in the chain action.
+- ```short_dribble``` (bool): Indicates whether the agent generates short dribble in the chain action.
+- ```long_dribble``` (bool): Indicates whether the agent generates long dribble in the chain action.
+- ```cross``` (bool): Indicates whether the agent generates cross in the chain action.
+- ```simple_pass``` (bool): Indicates whether the agent generates simple pass in the chain action.
+- ```simple_dribble``` (bool): Indicates whether the agent generates simple dribble in the chain action.
+- ```simple_shoot``` (bool): Indicates whether the agent generates simple shoot in the chain action.
+
+(TODO CHECK)
+
+### HeliosBasicOffensive
+This action gets no parameter. This action is used to let the agent to act as an offensive player in the helios-base.
+
+### HeliosBasicMove
+This action gets no parameter. This action is used to let the agent to move as a player in the helios-base.
+
+### HeliosSetPlay
+This action gets no parameter. This action is used to let the agent act in other game modes (not ```PLAY_ON```) as a player in the helios-base. 
 
 
-## Action
-The action contains only one action; however, this action can be one of the following actions:
+### HeliosPenalty
+This action gets no parameter. This action is used to let the agent to act in the penalty kick mode as a player in the helios-base.
 
-- ```Dash```
-- ```Turn```
-- ```Kick```
-- ```Tackle```
-- ```Catch```
-- ```Move```
-- ```TurnNeck```
-- ```ChangeView```
-- ```Say```
-- ```PointTo```
-- ```PointToOf```
-- ```AttentionTo```
-- ```AttentionToOf```
-- ```Log```
-- ```DebugClient```
-- ```Body_GoToPoint```
-- ```Body_SmartKick```
-- ```Bhv_BeforeKickOff```
-- ```Bhv_BodyNeckToBall```
-- ```Bhv_BodyNeckToPoint```
-- ```Bhv_Emergency```
-- ```Bhv_GoToPointLookBall```
-- ```Bhv_NeckBodyToBall```
-- ```Bhv_NeckBodyToPoint```
-- ```Bhv_ScanField```
-- ```Body_AdvanceBall```
-- ```Body_ClearBall```
-- ```Body_Dribble```
-- ```Body_GoToPointDodge```
-- ```Body_HoldBall```
-- ```Body_Intercept```
-- ```Body_KickOneStep```
-- ```Body_StopBall```
-- ```Body_StopDash```
-- ```Body_TackleToPoint```
-- ```Body_TurnToAngle```
-- ```Body_TurnToBall```
-- ```Body_TurnToPoint```
-- ```Focus_MoveToPoint```
-- ```Focus_Reset```
-- ```Neck_ScanField```
-- ```Neck_ScanPlayers```
-- ```Neck_TurnToBallAndPlayer```
-- ```Neck_TurnToBallOrScan```
-- ```Neck_TurnToBall```
-- ```Neck_TurnToGoalieOrScan```
-- ```Neck_TurnToLowConfTeammate```
-- ```Neck_TurnToPlayerOrScan```
-- ```Neck_TurnToPoint```
-- ```Neck_TurnToRelative```
-- ```View_ChangeWidth```
-- ```View_Normal```
-- ```View_Synch```
-- ```View_Wide```
-- ```HeliosGoalie```
-- ```HeliosGoalieMove```
-- ```HeliosGoalieKick```
-- ```HeliosShoot```
-- ```HeliosChainAction```
-- ```HeliosBasicOffensive```
-- ```HeliosBasicMove```
-- ```HeliosSetPlay```
-- ```HeliosPenalty```
-- ```HeliosCommunicaion```
+### HeliosCommunicaion
+This action gets no parameter. This action is used to let the agent to communicate with the other players as a player in the helios-base. By communication it means that the agent [says](#Say) messages to the other players and [attention to](#attentionTo) the other players.
+
+### Say
+(TODO COMPELETE)
+
+
+## Debug Actions
+
+### Log
+
+### DebugClient
+
+# Parameters
+## ServerParam
+## PlayerParam
+## PlayerType
