@@ -178,8 +178,299 @@ This list should only contains one Body Action and several other actions. By Bod
 
 In addition to that, the agent can send the some debug actions to the base. These actions are ```Log``` and ```DebugClient```. These actions are useful when you are using the [soccerwindow2](https://github.com/helios-base/soccerwindow2) as the monitor. These actions are for the debug tools of this application.
 
+## Action Levels
+Helios-base and the Proxy base has two different level of actions which are Low-Level Actions and High-Level Actions.
+
+- Low-Level Actions: These actions are the ones that RCSSServer will receive them from the agents to apply them on the players. These actions are the actions that are related to the agent's situation and needs many calculations to do a simple task, such as moving to a point or kicking the ball to a certain target.
+- High-Level Actions: These actions are developed in the helios-base and also the Proxy base supports them. These actions are very simple to use and let the developer consentrate on the strategy and the decision making of the agent. For instance, the agent can send a ```Body_GoToPoint``` action to the base and the base will calculate the best way to move the agent to the target point. ```Body_GoToPoint``` is a high-level action that finds the most optimized way of turning and dashing for the agent to reach the target point.
+
+in the folliwng sections, we will explain both type of the actions that the agent can send to the base.
+
 ## Low-Level Actions
-## High-Level Actions
+### Dash
+This action gets two parameters:
+- ```power``` (float): The power of the dash. The value can be between ```ServerParam.max_power``` and ```ServerParam.min_param```.
+- ```relative_direction``` (float): The direction of the dash which is relative to the body of the agent. The value can be between ```-180``` and ```180```.
+
+The dash action is most effective with the angles of ```0``` and ```180``` (back dash), and in the other directions it will reduced based on the angle.
+
+The maximum speed of the player is dependent on the agent's [```player_type```](#Playertype).
+
+
+### Turn
+This action gets one parameter:
+- ```relative_direction``` (float): The direction of the turn which is relative to the body of the agent. The value can be between ```-180``` and ```180```. Note that maximum value for the turn is related to the agent's ```speed```, and [```player_type```](#Playertype).
+
+### Kick
+This action gets two parameters:
+- ```power``` (float): The power of the kick. The value can be between ```ServerParam.max_power``` and ```ServerParam.min_param```.
+- ```relative_direction``` (float): The direction of the kick which is relative to the body of the agent. The value can be between ```-180``` and ```180```.
+
+The speed of the ball after the kick action is calculated based on the relative position of the ball and the agent and also it is related to the ```kick_rate``` of the agent which is in [```player_type```](#Playertype).
+
+### Tackle
+This action gets two parameter:
+- ```power_or_dir``` (float): (TODO CHECK)
+- ```foul``` (float): (TODO CHECK)
+
+### Catch
+This action gets no parameter, and only the goalie can use this action. If the ball is within the catchable area of the agent, the agent catchs the ball with some probabilty. The probability of catching the ball and the catchable area is related to the agent's [```player_type```](#Playertype).
+
+### Move
+This action gets two parameters:
+- ```x``` (float): The x position of the target point.
+- ```y``` (float): The y position of the target point.
+
+This actions is only used in the ```BeforeKickOff``` mode. The agent can move to the target point with the ```Move``` action.
+
+### TurnNeck
+This action gets one parameter:
+- ```moment``` (float): The current angle of the agent's neck will be added to this value. The value can be between ```ServerParam.max_neck_moment``` and ```ServerParam.min_neck_moment```.
+
+The maximum and the minimum agent's neck angle are ```ServerParam.max_neck_angle``` and ```ServerParam.min_neck_angle```.
+
+The neck angle is the angle of the view area of the agent.
+
+### ChangeView
+This action gets one parameter:
+- ```width``` (ViewWidth): The width of the agent's view. The value can be ```NARROW```, ```NORMAL```, or ```WIDE```.
+
+The ```NARROW``` view is 60 degrees, the ```NORMAL``` view is 120 degrees, and the ```WIDE``` view is 180 degrees.
+Also with the ```NARROW``` view, the agent can see each cycle; however, with the ```NORMAL``` view, the agent can see every two cycles, and with the ```WIDE``` view, the agent can see every three cycles.
+
+### PointTo
+This action gets two parameter:
+- ```x``` (float): The x position of the target point.
+- ```y``` (float): The y position of the target point.
+
+This action is used to point to a target point. Other players can see the direction of the point. This helps the team for more communications.
+
+This action has timeout which the agent has to wait for the timeout to finish before sending another ```PointTo``` action.
+
+### PointToOf
+This action gets no parameter. This action is used to remove the pointing of the agent.
+
+### AttentionTo
+This action gets two parameter:
+- ```side``` (Side): The side of the player that the agent wants to pay attention to. The value can be ```LEFT```, ```RIGHT```.
+- ```uniform_number``` (int): The uniform number of the player that the agent wants to pay attention to.
+
+This action is used to pay attention to a player which the agent hears the messages that the player says. A player can attention to maximum of ```ServerParam.player_hear_max``` players.
+
+### AttentionToOf
+This action gets no parameter. This action is used to remove the attention of the agent.
+
+
+## high-Level Actions
+### Body_GoToPoint
+This action gets three parameter:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to move to.
+- ```distance_threshold``` (float): The distance threshold that the agent should reach to the target point.
+- ```max_dash_power``` (float): The maximum dash power that the agent can use to move to the target point.
+
+This action is used to move the agent to the target point. The agent will calculate the best way to move to the target point and will send the [```Dash```](#Dash) and [```Turn```](#Turn) actions to the base.
+
+Since the position of the agent that is calculated based on the agent's observation is noisy, the ```distance_threshold``` is used to check if the agent is close enough to the target point. If the agent is close enough to the target point, the agent will stop moving. If the ```distance_threshold``` is ```0```, the agent will ```Dash``` and ```Turn``` around the ```target_point``` and it never stops. This might cause the stamina of the agent to be reduced quickly.
+
+### Body_SmartKick
+This action gets four parameter:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to kick the ball to.
+- ```first_speed``` (float): The first speed that the agent wants to kick the ball with.
+- ```first_speed_threshold``` (float): The threshold of the first speed must be at least.
+- ```max_steps``` (int): The maximum number of steps that the agent can kick the ball. (Maximum is 3)
+
+This action is used to kick the ball to the target point. The agent will calculate the best way to kick the ball to the target point and will send the [```Kick```](#Kick) action to the base.
+
+The ```first_speed``` is the speed that this action will try to reach; however, the agent trys to kick the ball with the maximum speed that the agent can kick the ball. The ```first_speed_threshold``` is the minimum speed that the agent should kick the ball with. If the agent cannot kick the ball with the ```first_speed_threshold```, the agent will not kick the ball.
+
+The ```max_steps``` is the maximum number of steps that the agent can kick the ball. The agent will try to kick the ball with the minimum number of steps. As the ```first_speed``` more stpes will be used to kick the ball. The maximum number of steps is 3.
+
+The maximum speed of the ball is ```ServerParam.ball_speed_max``` which is almost ```3```.
+
+### Bhv_BeforeKickOff
+This action gets one parameter:
+- ```point``` (```Vector2D```): The target point that the agent wants to move to.
+
+This action is used for the agent to move to the target point in the ```BeforeKickOff``` mode.
+
+### Bhv_BodyNeckToBall
+This action gets no parameter. This action is used to change the neck direction of the agent to the ball. If it is not possible to see the ball, the agent will turn to the ball.
+
+If the agent's position is not valid, the agent scans the field to find position of itself and the ball by turning around itself.
+
+### Bhv_BodyNeckToPoint
+This action gets one parameter:
+- ```point``` (```Vector2D```): The target point that the agent wants to move to.
+
+This action is used to change the neck direction of the agent to the target point. If it is not possible to see the target point, the agent will turn to the target point. If the agent's position is not valid, the agent scans the field to find position of itself by turning around itself.
+
+### Bhv_Emergency
+This action gets no parameter. This action is used to scan the field by turning around itself.
+
+### Bhv_GoToPointLookBall
+This action gets three parameter:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to move to.
+- ```distance_threshold``` (float): The distance threshold that the agent should reach to the target point.
+- ```max_dash_power``` (float): The maximum dash power that the agent can use to move to the target point.
+
+This action is as same as the [```Body_GoToPoint```](#Body_GoToPoint) action; however, the agent will also change the neck direction to the ball.
+
+### Bhv_NeckBodyToBall
+This action gets one parameter:
+- ```angel_buf``` (float): The buffer of the angle that the agent should turn its neck to the ball.
+
+This action is as same as the [```Bhv_BodyNeckToBall```](#Bhv_BodyNeckToBall) action; however, the agent will not turn if the it can look at around the ball with the ```angel_buf``` angle.
+
+### Bhv_NeckBodyToPoint
+This action gets two parameter:
+- ```point``` (```Vector2D```): The target point that the agent wants to move to.
+- ```angel_buf``` (float): The buffer of the angle that the agent should turn its neck to the target point.
+
+This action is as same as the [```Bhv_BodyNeckToPoint```](#Bhv_BodyNeckToPoint) action; however, the agent will not turn if the it can look at around the target point with the ```angel_buf``` angle.
+
+### Bhv_ScanField
+This action gets no parameter. This action is used to scan the field by turning around itself. This action is mostly used when the agent's position is not valid or the agent has no idea where the ball is.
+
+### Body_AdvanceBall
+This action gets no parameter. This action is used to kick and move the ball to the forward direction (toward opponent's goal).
+
+### Body_ClearBall
+This action gets no parameter. This action is used to clear the ball  to escapre from dangerous situation.
+
+### Body_Dribble
+This action gets 5 parameters:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to move to with the ball.
+- ```distance_threshold``` (float): The distance threshold that the agent should reach to the target point.
+- ```dash_power``` (float): The maximum dash power that the agent can use to move to the target point.
+- ```dash_count``` (int): The number of the dash that the agent should use after kicking the ball.
+- ```dodge``` (bool): Indicates whether the agent should avoid the opponents.
+
+### Body_GoToPointDodge
+This action gets 2 parameters:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to move to.
+- ```dash_power``` (float): The maximum dash power that the agent can use to move to the target point.
+
+This action is as same as the [```Body_GoToPoint```](#Body_GoToPoint) action; however, the agent will also avoid all players and the ball.
+
+### Body_HoldBall
+This action gets 3 parameters:
+- ```do_turn``` (bool): Indicates whether the agent can turn around itself. (defalue value is ```false```)
+- ```turn_to_target_point``` (```Vector2D```): The target point that the agent should to turn to. (default value is ```(0, 0)```)
+- ```kick_target_point``` (```Vector2D```): The target point that the agent should kick the ball to. (default value is ```Vector2D.INVALIDATED```)
+
+This action is used to hold the ball and avoid the opponents. The agent will turn to the target point and kick the ball to the target point.
+
+### Body_Intercept
+This action gets 2 parameters:
+- ```save_recovery``` (bool): Indicates whether the agent should save the recovery. (default value is ```true```)
+- ```face_point``` (```Vector2D```): The target point that the agent should face (neck angle) to. (default value is ```Vector2D.INVALIDATED```)
+
+This action is used to intercept the ball. This action uses the [```intercept_table```](#InterceptTable) of the agent to find the fastest way to intercept the ball.
+
+### Body_KickOneStep
+This action gets 3 parameters:
+- ```target_point``` (```Vector2D```): The target point that the agent wants to kick the ball to.
+- ```first_speed``` (float): The first speed that the agent wants to kick the ball with.
+- ```force_mode``` (bool): Indicates whether the agent should use the force mode. (default value is ```false```)
+
+This action is used to kick the ball to the target point with the ```first_speed```. The agent will kick the ball with the maximum speed that the agent can kick the ball if the ```force_mode``` is enabled and the ball cannot reach the ```first_speed``` in the current situation.
+
+### Body_StopBall
+This action gets no parameter. This action is used to stop the ball.
+
+### Body_StopDash
+This action gets one parameter:
+- ```save_recovery``` (bool): Indicates whether the agent should save the recovery.
+
+This action is used to stop the agent from moving.
+
+### Body_TackleToPoint
+(TODO CHECK)
+
+### Body_TurnToAngle
+This action gets one parameter:
+- ```angle``` (float): The angle that the agent should turn to. Note that the angle is global, not relative to the agent's body.
+
+This action is used to turn the agent to the angle.
+
+### Body_TurnToBall
+This action gets one parameter:
+- ```cycle``` (int): The number of cycles that the agent should turn to the ball.
+
+This action is used to turn the agent to the ball.
+
+### Body_TurnToPoint
+This action gets two parameter:
+- ```point``` (```Vector2D```): The target point that the agent wants to turn to.
+- ```cycle``` (int): The number of cycles that the agent should turn to the target point.
+
+This action is used to turn the agent to the target point.
+
+### Focus_MoveToPoint
+This action gets one parameters:
+- ```target_point``` (```Vector2D```): The point that the agent should focus.
+
+This action is used to focus on the target point. If the ```target_point``` is not in the vision area, this action finds the closest point in the vision area to focus. Also, the ```target_point``` should not be farther than the ```ServerParam.focus_area_lenght``` (TODO CHECK) from the agent.
+
+### Focus_Reset
+This action gets no parameter. This action is used to set the focus point on the agent itself.
+
+### Neck_ScanField
+This action gets no parameter. This action is used to scan the field evenly by turning the neck.
+
+### Neck_ScanPlayers
+This action gets no parameter. This action is used to scan the players by turning the neck.
+
+### Neck_TurnToBallAndPlayer
+This actino gets 3 parameters:
+- ```side``` (Side): The side of the player that the agent should turn its neck to.
+- ```uniform_number``` (int): The uniform number of the player that the agent should turn its neck to.
+- ```count_threshold``` (int): If player's posCount is smaller than this value, agent simply turns neck to the ball.
+
+This action is used to turn the agent's neck to the player. If the target player's ```pos_count``` was smaller than the ```count_threshold``` or the player was ```ghost```, the agent will turn its neck to the ball.
+
+### Neck_TurnToBallOrScan
+This action gets one parameter:
+- ```count_threshold``` (int): If ball's posCount is smaller than this value, agent simply turns neck to the ball. otherwise it scans the field.
+
+### Neck_TurnToBall
+This action gets no parameter. This action is used to turn the agent's neck to the ball.
+
+### Neck_TurnToGoalieOrScan
+This action gets one parameter:
+- ```count_threshold``` (int): If goalie's posCount is smaller than this value, agent simply turns neck to the goalie. otherwise it scans the field.
+
+### Neck_TurnToLowConfTeammate
+This action gets no parameter. This action is used to turn the agent's neck to the teammate that has the lowest confidence or highest ```pos_count```.
+
+### Neck_TurnToPlayerOrScan
+this actino gets 3 parameters:
+- ```side``` (Side): The side of the player that the agent should turn its neck to.
+- ```uniform_number``` (int): The uniform number of the player that the agent should turn its neck to.
+- ```count_threshold``` (int): If player's posCount is smaller than this value, agent scans the field.
+
+### Neck_TurnToPoint
+This action gets one parameter:
+- ```target_point``` (```Vector2D```): The target point that the agent should turn its neck to.
+
+### Neck_TurnToRelative
+This action gets one parameter:
+- ```angle``` (float): The angle that the agent should turn its neck to. The angle is relative to the agent's body.
+
+### View_ChangeWidth
+This action gets one parameter:
+- ```width``` (ViewWidth): The width of the agent's view. The value can be ```NARROW```, ```NORMAL```, or ```WIDE```.
+
+### View_Normal
+This action gets no parameter. This action is used to set the agent's view width to the ```NORMAL``` width.
+
+### View_Synch
+(TODO CHECK)
+
+### View_Wide
+This action gets no parameter. This action is used to set the agent's view width to the ```WIDE``` width.
+
+
 
 ## Action
 The action contains only one action; however, this action can be one of the following actions:
