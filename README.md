@@ -7,7 +7,7 @@ On the other hand, the PlayMaker Server receives information from the client(Mod
 
 To learn more about the framework, how to build, and how to run it please check the [wiki pages](https://github.com/CLSFramework/cross-language-soccer-framework/wiki).
 
-Also, you can check the following repositories:
+Also, you can check the following repositories to find sample playmaker servers in many programming languages:
 - [Soccer Simulation Proxy](https://github.com/CLSFramework/soccer-simulation-proxy)
 - [PlaymakerServer-CSharp](https://github.com/CLSFramework/playmaker-server-csharp)
 - [PlaymakerServer-Python](https://github.com/CLSFramework/playmaker-server-python)
